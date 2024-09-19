@@ -3,14 +3,18 @@ import { IOrderService } from "../interface/IOrderService";
 export class OrderController {
     constructor(private service:IOrderService) {};
 
-    createOrder = async(data:any) =>{
+    createOrder = async (data: any) => {
         try {
-            const response = await this.service.createOrder(data);
-            return response
-        } catch (e:any) {
-            throw new Error('error')
+            console.log('Creating order with data:', data);
+          const response = await this.service.createOrder(data);
+          return response;
+        } catch (e: any) {
+          // Log the detailed error message and stack trace
+          console.error("Error in createOrder:", e.message, e.stack);
+          throw new Error(`Error in createOrder: ${e.message}`);
         }
-    }
+      }
+      
 
     sendPublishKey = () =>{
         try {
@@ -28,4 +32,30 @@ export class OrderController {
             console.log(e);
         }
     }
+
+    getOrderAnalytics = async(instructorId:string)=>{
+        try {
+            return this.service.getOrderAnalytics(instructorId)            
+        } catch (e:any) {
+            console.log(e)
+        }
+    }
+
+    getRevenueAnalytics = async(instructorId?:string) =>{
+        try {
+            return await this.service.getRevenueAnalytics(instructorId);
+        } catch (e:any) {
+            console.log(e)
+        }
+    }
+
+    getTotalInstructorRevenueByCourse = async (courseId: string) => {
+        try {
+          const totalRevenue = await this.service.getTotalInstructorRevenueByCourse(courseId);
+          console.log(totalRevenue)
+          return { courseId, totalInstructorRevenue: totalRevenue };
+        } catch (e: any) {
+          console.log(e)
+        }
+      };
 }

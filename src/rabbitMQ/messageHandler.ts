@@ -30,8 +30,20 @@ export default class MessageHandler {
         response = await controller.createOrder.bind(controller)(data);
         break;
 
+      case "order-analytics":
+        response = await controller.getOrderAnalytics.bind(controller)(data.instructorId);
+        break;
+
+      case "revenue-analytics":
+        response = await controller.getRevenueAnalytics.bind(controller)(data.instructorId ||null);
+        break;
+
+      case "instructor-revenue-analytics":
+        response = await controller.getTotalInstructorRevenueByCourse.bind(controller)(data.courseId);
+        break;
+
       default:
-        response = "Request-key notfound";
+        response = "Request-key not found";
         break;
     }
 
